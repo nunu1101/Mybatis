@@ -51,7 +51,7 @@
         </if>
             WHERE A.ORDERABLE_STATUS = 'Y'
         <if test="condition == 'name'">
-            AND A.MENU_NAME LIKE CONCAT('%', #{value} ,'%')
+            AND A.MENU_N-AME LIKE CONCAT('%', #{value} ,'%')
         </if>
         <if test="condition == 'category'">
             AND B.CATEGORY_NAME = #{value}
@@ -104,5 +104,51 @@
         <foreach collection="randomCodeList" item="menuCode" open="(" separator=", " close=")">
             #{menuCode}
         </foreach>
+    </select>
+
+    <select id="searchMenuByCodeOrSearchAll" parameterType="SearchCriteria" resultMap="menuResultMap">
+        SELECT
+                A.MENU_CODE
+            ,   A.MENU_NAME
+            ,   A.MENU_PRICE
+            ,   A.CATEGORY_CODE
+            ,   A.ORDERABLE_STATUS
+            FROM TBL_MENU A
+        <if test="condition != null and condition eq 'menuCode'">
+            <where>
+                A.MENU_CODE = #{value}
+            </where>
+        </if>
+    </select>
+
+    <!--  <where> 태그 : 엘리먼트 구문이 where로 시작하지 않으면 자동으로 where를 붙여준다.
+                        또한 where엘리먼트 내부에 모두 쿼리문이 추가되지 않는 상황인 경우 where를 무시한다.
+                        단, name 부분에 where를 빼주지 않으면 where where로 where이 2개 생성될 수 있다.
+                        엘리먼트 구무이 AND나 OR로 시작하면 자동으로 해당 단어를 지워준다.
+    -->
+    <select id="searchMenuByNameOrCategory" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT
+                A.MENU_CODE
+            ,   A.MENU_NAME
+            ,   A.MENU_PRICE
+            ,   A.CATEGORY_CODE
+            ,   A.ORDERABLE_STATUS
+            FROM TBL_MENU A
+        <!--<if test="nameValue != null">
+            WHERE A.MENU_NAME LIKE CONCAT('%', #{nameValue}, '%')
+        </if>
+        <if test="categoryValue != null">
+            AND A.CATEGORY_CODE = #{categoryValue}
+        </if>-->
+
+        <!-- 해결방법 1 : <where> 태그 이용 -->
+        <where>
+            <if test="nameValue != null">
+                A.MENU_NAME LIKE CONCAT('%', #{nameValue}, '%')
+            </if>
+            <if test="categoryValue != null">
+                AND A.CATEGORY_CODE = #{categoryValue}
+            </if>
+        </where>
     </select>
 </mapper>
