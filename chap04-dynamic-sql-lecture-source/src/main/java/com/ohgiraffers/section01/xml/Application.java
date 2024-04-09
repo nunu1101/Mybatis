@@ -36,6 +36,7 @@ public class Application {
             System.out.println("========== if 서브 메뉴 ==========");
             System.out.println("1. 원하는 금액대에 적합한 추천 메뉴 목록 보여주기");
             System.out.println("2. 메뉴 이름 혹은 카테고리명으로 검색하여 메뉴 목록 보여주기");
+            System.out.println("3. 원하는 메뉴 정보만 수정하기");
             System.out.println("9. 이전 메뉴로");
             System.out.print("메뉴 번호를 입력하세요 : ");
             int no = sc.nextInt();
@@ -137,6 +138,7 @@ public class Application {
             switch (no) {
                 case 1 : menuService.searchMenuByCodeOrSearchAll(inputAllOrOne()); break;
                 case 2 : menuService.searchMenuByNameOrCategory(inputSearchCriteriaMap()); break;
+                case 3 : menuService.modifyMenu(inputChangeInfo()); break;
                 case 9 : return;
             }
         }while (true);
@@ -186,6 +188,24 @@ public class Application {
             criteria.put("nameValue", nameValue);
             criteria.put("categoryValue", categoryValue);
         }
+        return criteria;
+    }
+
+    private static Map<String, Object> inputChangeInfo() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("변경할 메뉴 코드를 입력하세요 : ");
+        int code = sc.nextInt();
+        System.out.print("변경할 메뉴 이름을 입력하세요 : ");
+        sc.nextLine();
+        String name = sc.nextLine();
+        System.out.print("판매 여부를 결정해주세요(Y/N) : ");
+        String orderableStatus = sc.nextLine();
+
+        Map<String, Object> criteria = new HashMap<>();
+        criteria.put("code", code);
+        criteria.put("name", name);
+        criteria.put("orderableStatus", orderableStatus);
+
         return criteria;
     }
 

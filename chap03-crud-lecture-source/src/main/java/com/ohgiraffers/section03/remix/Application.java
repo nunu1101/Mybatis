@@ -1,5 +1,6 @@
 package com.ohgiraffers.section03.remix;
 
+import java.util.Map;
 import java.util.Scanner;
 
 public class Application {
@@ -21,9 +22,18 @@ public class Application {
 
             switch (no) {
                 case 1: menuController.selectAllMenu(); break;
+                case 2: menuController.selectMenuByCode(inputMenuCode()); break;
                 default:
                     System.out.println("잘못된 메뉴를 선택하셨습니다."); break;
             }
         }while (true);
+    }
+
+    private static Map<String, String> inputMenuCode() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("메뉴 코드를 입력하세요 : ");
+        String code = sc.nextLine();
+
+        Map<String, String> parameter =
     }
 }

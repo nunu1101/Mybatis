@@ -8,7 +8,7 @@
         <result property="name" column="MENU_NAME"/>
         <result property="price" column="MENU_PRICE"/>
         <result property="categoryCode" column="CATEGORY_CODE"/>
-        <result property="orderableStatus" column="ODRERABLE_STATUS"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
     </resultMap>
 
     <!-- <if> 태그 : test 속성의 조건에 해당할 때만 엘리먼트 구문을 쿼리에 포함한다. -->
@@ -168,4 +168,43 @@
             </if>
         </trim>
     </select>
+
+    <update id="modifyMenu" parameterType="hashmap">
+        <!-- 문제 발생 : 메뉴명 값을 입력하지 않은 경우 SET이 붙지 않아 쿼리 오류로 수정 불가하다. -->
+        <!--UPDATE
+                TBL_MENU
+        <if test="name != null and name != ''">
+            SET MENU_NAME = #{name}
+        </if>
+        <if test="orderableStatus != null and orderableStatus != ''">
+              , ORDERABLE_STATUS = #{orderableStatus}
+        </if>
+            WHERE MENU_CODE = #{code}-->
+
+        <!-- 해결 방안 1 : <set> 태그 이용 -->
+        <!--UPDATE
+                TBL_MENU
+        <set>
+            <if test="name != null and name != ''">
+                MENU_NAME = #{name}
+            </if>
+            <if test="orderableStatus != null and orderableStatus != ''">
+                , ORDERABLE_STATUS = #{orderableStatus}
+            </if>
+        </set>
+             WHERE MENU_CODE = #{code}-->
+
+        <!-- 해결 방안 2 : <trim> 태그 이용 -->
+        UPDATE
+                TBL_MENU
+        <trim prefix="SET" prefixOverrides=",">
+            <if test="name != null and name != ''">
+                MENU_NAME = #{name}
+            </if>
+            <if test="orderableStatus != null and orderableStatus != ''">
+                , ORDERABLE_STATUS = #{orderableStatus}
+            </if>
+        </trim>
+            WHERE MENU_CODE = #{code}
+    </update>
 </mapper>
