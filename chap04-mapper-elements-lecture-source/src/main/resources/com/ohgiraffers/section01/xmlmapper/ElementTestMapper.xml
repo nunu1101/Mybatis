@@ -125,6 +125,20 @@
         <result property="orderableStatus" column="ORDERABLE_STATUS"/>
     </resultMap>
 
+    <!-- b. collection 내에 id, result 작성하는 방법 -->
+    <!--<resultMap id="categoryAndMenuResultMap" type="com.ohgiraffers.common.CategoryAndMenuDTO">
+        <id property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="refCategoryCode" column="REF_CATEGORY_CODE"/>
+        <collection property="menuList" ofType="com.ohgiraffers.common.MenuDTO">
+            <id property="code" column="MENU_CODE"/>
+            <result property="name" column="MENU_NAME"/>
+            <result property="price" column="MENU_PRICE"/>
+            <result property="categoryCode" column="CATEGORY_CODE"/>
+            <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+        </collection>
+    </resultMap>-->
+
     <select id="selectResultMapCollectionTest" resultMap="categoryAndMenuResultMap">
         SELECT
                 A.CATEGORY_CODE
