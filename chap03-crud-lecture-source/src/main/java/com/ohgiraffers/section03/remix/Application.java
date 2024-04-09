@@ -1,5 +1,6 @@
 package com.ohgiraffers.section03.remix;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -34,6 +35,9 @@ public class Application {
         System.out.print("메뉴 코드를 입력하세요 : ");
         String code = sc.nextLine();
 
-        Map<String, String> parameter =
+        Map<String, String> parameter = new HashMap<>();
+        parameter.put("code",code);
+
+        return parameter;
     }
 }

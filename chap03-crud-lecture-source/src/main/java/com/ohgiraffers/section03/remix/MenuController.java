@@ -1,6 +1,7 @@
 package com.ohgiraffers.section03.remix;
 
 import java.util.List;
+import java.util.Map;
 
 public class MenuController {
 
@@ -18,6 +19,18 @@ public class MenuController {
             printResult.printMenuList(menuList);
         } else {
             printResult.printErrorMessage("selectList");
+        }
+    }
+
+    public void selectMenuByCode(Map<String, String> parameter) {
+        int code = Integer.parseInt(parameter.get("code"));
+
+        MenuDTO menu = menuService.selectMenuByCode(code);
+
+        if (menu != null) {
+            printResult.printMenu(menu);
+        } else {
+            printResult.printErrorMessage("selectOne");
         }
     }
 }

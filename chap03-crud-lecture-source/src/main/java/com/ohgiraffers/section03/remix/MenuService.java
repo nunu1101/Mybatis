@@ -16,4 +16,16 @@ public class MenuService {
         sqlSession.close();
         return menuList;
     }
+
+    public MenuDTO selectMenuByCode(int code) {
+
+        SqlSession sqlSession = getSqlSession();
+        MenuMapper menuMapper = sqlSession.getMapper(MenuMapper.class);
+
+        MenuDTO menu = menuMapper.selectByMenuCode(code);
+
+        sqlSession.close();
+
+        return menu;
+    }
 }
